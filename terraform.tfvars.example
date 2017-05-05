@@ -23,14 +23,17 @@ db_final_snapshot = "true_or_false_for_yes_or_no_to_skip_final_snapshot"
 
 srv_size = "rancher_server_instance_size_such_as_t2.medium"
 
-hst_size = "rancher_host_instance_size_such_as_t2.small"
-hst_max = "max_size_for_the_autoscaling_group"
-hst_min = "min_size_for_the_autoscaling_group"
-hst_des = "desired_size_for_the_autoscaling_group"
-reg_token = "rancher_hosts_registration_token"
+gocdagt_hst_size = "gocd_agent_host_instance_size_such_as_t2.small"
+gocdagt_hst_max = "max_size_for_the_autoscaling_group"
+gocdagt_hst_min = "min_size_for_the_autoscaling_group"
+gocdagt_hst_des = "desired_size_for_the_autoscaling_group"
 
-#server_version = "the_tested_rancher_server_version"
-#agent_version = "the_tested_rancher_agent_version"
+gocdsrv_hst_size = "gocd_server_host_instance_size_such_as_t2.small"
+gocdsrv_hst_max = "max_size_for_the_autoscaling_group"
+gocdsrv_hst_min = "min_size_for_the_autoscaling_group"
+gocdsrv_hst_des = "desired_size_for_the_autoscaling_group"
+
+reg_token = "rancher_hosts_registration_token"
 
 rancher_admin_name = "your_name"
 rancher_admin_username = "an_administrator_username"
