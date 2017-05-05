@@ -11,13 +11,14 @@ The Terraform plan is designed to be applied in two stages. It will build out an
 * Single-AZ or Multi-AZ RDS MySQL DB instance
 * SSL enabled elastic load balancer + listeners
 * Launch configuration + fixed Multi-AZ auto-scaling group of x1 instance for the Rancher server
-* Launch configuration + fixed Multi-AZ auto-scaling group of a specified instance amount for the Rancher hosts
+* Launch configuration + fixed Multi-AZ auto-scaling group of a specified EC2 instance amount for the Rancher GoCD server hosts
+* Launch configuration + fixed Multi-AZ auto-scaling group of a specified EC2 instance amount for the Rancher GoCD agent hosts
 * EC2 IAM policy role for the Rancher server & hosts, granting full access to EC2, S3, Route 53, SNS & Cloudwatch
-* RancherOS instance with active Docker running a password protected deployment of Rancher server
-* RancherOS instances with active Docker running the Rancher host agent
+* RancherOS EC2 instance with active Docker running a password protected deployment of Rancher server
+* RancherOS EC2 instances with active Docker as Rancher hosts to run GoCD server and GoCD agents
 * Route 53 DNS alias record for the ELB
 
-The estimated deployment time from start to finish is 20-30 minutes.
+The estimated deployment time is 30 minutes.
 
 ### Prerequisites
 
@@ -36,8 +37,9 @@ Tested with the following versions.
 * RancherOS v1.0.0
 * Rancher server v1.5.6
 * Rancher agent v1.2.2
+* GoCD v17.4.0
 
-#### Stage One
+#### Rancher server
 
 * Clone the repo
 * Create an EC2 keypair in AWS
@@ -45,7 +47,7 @@ Tested with the following versions.
 * Update `init.sh` with the S3 bucket name and region
 * Run `init.sh` to initialise remote state
 * Create `terraform.tfvars` in the root of the cloned folder (see `terraform.tfvars.example`)
-* Set `hst_max`, `hst_min` and `hst_des` in `terraform.tfvars` to zero (0)
+* Set `gocdagt_hst_max` + `gocdsrv_hst_max`, `gocdagt_hst_min` + `gocdsrv_hst_max`and `gocdagt_hst_des` + `gocdsrv_hst_max` in `terraform.tfvars` to zero (0)
 * Make up a temporary reg_token in `terraform.tfvars`
 * Run `terraform plan` from the root of the folder
 * Run `terraform apply` from the root of the folder
@@ -53,14 +55,26 @@ Tested with the following versions.
 * Access Rancher server at the displayed output URL
 * Log in with the name and password specified in the `terraform.tfvars` file
 
-#### Stage Two
+#### Rancher hosts for GoCD server + agents
 * Enable hosts registration from within Rancher and copy the token from the registration string. The token will be in the format similar to `6C8B0D1B2E95DD1AA07A:1483142400000:PKQGzShMCv3wtD02DvlU4MkBY0`
 * Update `reg_token` in `terraform.tfvars` with the registration token
-* Update `hst_max`, `hst_min` and `hst_des` in `terraform.tfvars` with the max, min and desired amount of host instances
+* Update `gocdagt_hst_max` + `gocdsrv_hst_max`, `gocdagt_hst_min` + `gocdsrv_hst_max`and `gocdagt_hst_des` + `gocdsrv_hst_max` in `terraform.tfvars` with the max, min and desired amount of GoCD server and agent host instances
 * Re-run `terraform plan`
 * Re-run `terraform apply`
-* The launch configuration will be replaced with a new version and applied to the auto scaling group
+* Launch configurations will be replaced with new versions and applied to the auto scaling groups
 * The specified amount of host instances will launch and register with the Rancher server
+
+### How to install GoCD server with GoCD auto-registered agents
+
+#### Rancher plugins
+* Within Rancher, add the Rancher EBS plugin item from the Rancher library catalog and pre-create a 10GB GP2 storage volume named `ebs`
+* Add the Rancher Route 53 DNS plugin item from the Rancher library and configure, later adding a CNAME entry in R53 for the corresponding GoCD server service once it is installed.
+
+#### Custom catalog with GoCD server + agents
+* Add the STCL custom catalog to Rancher - https://github.com/SkeltonThatcher/rancher-buildeng-catalog
+* Install the GoCD server item, specifying a scheduling rule for host label gocdsrv_hst
+* Obtain the GoCD agent registration key from the GoCD server config XML
+* Install the GoCD agent item, adding the agent registration key, and specifying a scheduling rule for host label gocdagt_hst
 
 #### How to remove
 * To remove all deployed resources run `terraform destroy`
