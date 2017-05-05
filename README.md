@@ -1,4 +1,4 @@
-# Single Node SSL/HA for Rancher Server in AWS
+# Single Node SSL/HA for Rancher Server and GoCD in AWS
 
 This repo contains Terraform code with supporting scripts and advisories to deploy single node HA Rancher server and Rancher hosts in AWS, with GoCD server and GoCD auto-registered agents
 
