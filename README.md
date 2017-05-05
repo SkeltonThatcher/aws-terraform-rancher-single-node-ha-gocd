@@ -92,4 +92,4 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 ### Acknowledgments
 
-* Based on works produced by [George Cairns](https://www.linkedin.com/in/george-cairns-9624b621/) from [Automation Logic](http://www.automationlogic.com/)
+* set_access_control.sh script created [George Cairns](https://www.linkedin.com/in/george-cairns-9624b621/) from [Automation Logic](http://www.automationlogic.com/)
