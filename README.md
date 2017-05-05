@@ -1,8 +1,8 @@
 # Single Node SSL/HA for Rancher Server in AWS
 
-This repo contains Terraform code and supporting scripts to deploy single node HA Rancher server and Rancher hosts in AWS.
+This repo contains Terraform code with supporting scripts and advisories to deploy single node HA Rancher server and Rancher hosts in AWS, with GoCD server and GoCD auto-registered agents
 
-The Terraform plan is designed to be applied in two stages. It will build out and deploy the following resources.
+The Terraform plan will build out and deploy the following resources.
 
 * x1 VPC + IGW
 * x2 Public subnets
@@ -29,7 +29,7 @@ The estimated deployment time is 30 minutes.
 * Git installed and configured
 * Terraform installed and configured
 
-### How to use the Terraform plan to deploy Rancher server and Rancher hosts
+### How to use the Terraform plan to deploy AWS infrastructure supporting Rancher server and Rancher hosts
 
 #### Version advisories
 Tested with the following versions.
@@ -56,19 +56,20 @@ Tested with the following versions.
 * Log in with the name and password specified in the `terraform.tfvars` file
 
 #### Rancher hosts for GoCD server + agents
+
 * Enable hosts registration from within Rancher and copy the token from the registration string. The token will be in the format similar to `6C8B0D1B2E95DD1AA07A:1483142400000:PKQGzShMCv3wtD02DvlU4MkBY0`
 * Update `reg_token` in `terraform.tfvars` with the registration token
-* Update `gocdagt_hst_max` + `gocdsrv_hst_max`, `gocdagt_hst_min` + `gocdsrv_hst_max`and `gocdagt_hst_des` + `gocdsrv_hst_max` in `terraform.tfvars` with the max, min and desired amount of GoCD server and agent host instances
+* Update `gocdagt_hst_max` + `gocdsrv_hst_max`, `gocdagt_hst_min` + `gocdsrv_hst_max`and `gocdagt_hst_des` + `gocdsrv_hst_max` in `terraform.tfvars` with the max, min and desired amount of GoCD server and GoCD agent host instances
 * Re-run `terraform plan`
 * Re-run `terraform apply`
 * Launch configurations will be replaced with new versions and applied to the auto scaling groups
-* The specified amount of host instances will launch and register with the Rancher server
+* The specified amount of GoCD server and GoCD agent host instances will launch and register with the Rancher server
 
 ### How to install GoCD server with GoCD auto-registered agents
 
 #### Rancher plugins
 * Within Rancher, add the Rancher EBS plugin item from the Rancher library catalog and pre-create a 10GB GP2 storage volume named `ebs`
-* Add the Rancher Route 53 DNS plugin item from the Rancher library and configure, later adding a CNAME entry in R53 for the corresponding GoCD server service once it is installed.
+* Add the Rancher Route 53 DNS plugin item from the Rancher library and configure, later adding a CNAME entry in R53 for the corresponding GoCD server service once it is installed. Specify a scheduling rule for host label gocdsrv_hst
 
 #### Custom catalog with GoCD server + agents
 * Add the STCL custom catalog to Rancher - https://github.com/SkeltonThatcher/rancher-buildeng-catalog
