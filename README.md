@@ -2,7 +2,7 @@
 
 This repo contains Terraform code with supporting scripts and advisories to deploy single node HA Rancher server and Rancher hosts in AWS, with GoCD server and GoCD auto-registered agents
 
-The deployment is designed for use with the [STCL-TECH GoCD server and agent services](https://github.com/SkeltonThatcher/rancher-buildeng-catalog)
+The deployment is designed for use with the STCL-TECH GoCD server and agent services from the [SkeltonThatcher Rancher Build Engineering custom catalog ](https://github.com/SkeltonThatcher/rancher-buildeng-catalog)
 
 The Terraform plan will build out and deploy the following resources.
 
