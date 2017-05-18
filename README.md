@@ -40,14 +40,15 @@ Tested with the following versions.
 * Rancher server v1.5.6
 * Rancher agent v1.2.2
 * GoCD v17.4.0
+* Terraform 0.9.5
 
 #### Rancher server
 
 * Clone the repo
 * Create an EC2 keypair in AWS
 * Create an S3 bucket to hold remote state
-* Update `init.sh` with the S3 bucket name and region
-* Run `init.sh` to initialise remote state
+* Update `backend.tf` with the S3 bucket name and region
+* Run `terraform init` to initialise remote state
 * Create `terraform.tfvars` in the root of the cloned folder (see `terraform.tfvars.example`)
 * Set `gocdagt_hst_max` + `gocdsrv_hst_max`, `gocdagt_hst_min` + `gocdsrv_hst_max`and `gocdagt_hst_des` + `gocdsrv_hst_max` in `terraform.tfvars` to zero (0)
 * Make up a temporary reg_token in `terraform.tfvars`
