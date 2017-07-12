@@ -36,11 +36,11 @@ The estimated deployment time is 30 minutes.
 #### Version advisories
 Tested with the following versions.
 
-* RancherOS v1.0.0
-* Rancher server v1.5.6
-* Rancher agent v1.2.2
-* GoCD v17.4.0
-* Terraform 0.9.5
+* RancherOS v1.0.3
+* Rancher server v1.6.3
+* Rancher agent v1.2.4
+* GoCD v17.7.0
+* Terraform 0.9.11
 
 #### Rancher server
 

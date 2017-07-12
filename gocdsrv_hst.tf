@@ -97,9 +97,5 @@ resource "aws_autoscaling_group" "gocdsrv_hst" {
     propagate_at_launch = true
   }
 
-  lifecycle {
-    create_before_destroy = true
-  }
-
   depends_on = ["aws_launch_configuration.gocdsrv_hst"]
 }
